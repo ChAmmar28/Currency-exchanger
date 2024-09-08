@@ -1,33 +1,61 @@
-const wrap = document.querySelector(".wrap");
+// import
+import { getCurrensy } from "./fetching.js";
+import { convertor } from "./convertor.js";
+import { cardConstructor } from "./cardConstructor.js";
 
-let name = "USD";
-const url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/`;
+// global varibles
+let baseCurrency = "KGS";
+const url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${localStorage.getItem(
+  "baseCurrency"
+)}`;
 
-let getCurrensy = async () => {
-  try {
-    let response = await fetch(url + name);
-    let data = await response.json();
-    console.log("ok");
-    return {
-      base_code: data["base_code"],
-      conversion_rates: data["conversion_rates"],
-    };
-  } catch (error) {
-    console.error(error);
-  }
-};
+localStorage.setItem("baseCurrency", baseCurrency);
 
-// надо будет вынести в отдельный файл
-const cardConstructor = (obj, element, place) => {
-  let currencyCard = document.createElement("div");
-  currencyCard.id = `${element}`;
-  currencyCard.innerHTML = `1${obj["base_code"]} = ${obj["conversion_rates"][element]}${element}`;
-  place.append(currencyCard);
-};
+const globalObject = await getCurrensy(url);
+console.log(globalObject);
 
-// мне не нравиться внешний вид кода
-getCurrensy().then((data) => {
-  for (let element in data["conversion_rates"]) {
-    cardConstructor(data, element, wrap);
-  }
-});
+switch (document.title) {
+  // CurrencyPage
+
+  case "CurrencyPage":
+    console.log("CurrencyPage");
+    const wrap = document.querySelector(".wrap");
+
+    // мне не нравиться внешний вид кода
+
+    for (let currencyIndex in globalObject["conversion_rates"]) {
+      cardConstructor(
+        globalObject["base_code"],
+        globalObject["conversion_rates"],
+        currencyIndex,
+        wrap
+      );
+    }
+
+    break;
+
+  // ExchangePage
+  case "ExchangerPage":
+    console.log("ExchangerPage");
+    const input = document.querySelector(".inputContainer");
+    const p = document.querySelector(".result");
+    const select = document.querySelector("select");
+    for (let element in globalObject["conversion_rates"]) {
+      const option = document.createElement("option");
+      option.innerHTML = element;
+      select.append(option);
+    }
+    // input.addEventListener("change", () => {
+    //   p.innerHTML = convertor(
+    //     input.value,
+    //     globalObject["base_code"],
+    //     globalObject["conversion_rates"]
+    //   );
+    // });
+
+    break;
+
+  //Error Page надо будет как-то допилить
+  default:
+    break;
+}
