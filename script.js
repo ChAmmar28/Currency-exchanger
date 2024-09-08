@@ -39,19 +39,22 @@ switch (document.title) {
     console.log("ExchangerPage");
     const input = document.querySelector(".inputContainer");
     const p = document.querySelector(".result");
-    const select = document.querySelector("select");
+    const selectList = document.querySelector("select");
     for (let element in globalObject["conversion_rates"]) {
       const option = document.createElement("option");
       option.innerHTML = element;
-      select.append(option);
+      selectList.append(option);
     }
-    // input.addEventListener("change", () => {
-    //   p.innerHTML = convertor(
-    //     input.value,
-    //     globalObject["base_code"],
-    //     globalObject["conversion_rates"]
-    //   );
-    // });
+    input.addEventListener("change", () => {
+      // надо сделать проверку на число в инпуте
+
+      p.innerHTML = convertor(
+        input.value,
+        globalObject["base_code"],
+        globalObject["conversion_rates"],
+        selectList.value
+      );
+    });
 
     break;
 
