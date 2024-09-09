@@ -1,14 +1,16 @@
-export const convertor = (
-  value = 1,
-  fromCurrency,
-  currencyList,
-  currencyIndex
-) => {
-  return `${
-    value +
-    fromCurrency +
-    " = " +
-    value * currencyList[currencyIndex] +
-    currencyIndex
-  }`;
-};
+// это та вещь из-за которой я так долго делал 2ую стр
+
+// const convertor = (value, currencyList, currencyIndexA, currencyIndexB) => {
+//   console.log(value);
+//   console.log(currencyList);
+//   console.log(currencyIndexA);
+//   console.log(currencyIndexB);
+
+//   return `${
+//     value +
+//     currencyIndexA +
+//     " = " +
+//     value * currencyList[currencyIndexB] +
+//     currencyIndexB
+//   }`;
+// };

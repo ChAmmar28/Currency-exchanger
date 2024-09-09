@@ -1,5 +1,3 @@
-import { convertor } from "./convertor.js";
-
 export const cardConstructor = (
   currencyFrom,
   currencyList,
@@ -14,7 +12,9 @@ export const cardConstructor = (
     localStorage.setItem("baseCurrency", currencyCard.id);
     location.reload();
   });
-  cardText.innerHTML = convertor(1, currencyFrom, currencyList, currencyIndex);
+  cardText.innerHTML = `1 ${currencyFrom} = ${
+    currencyList[currencyIndex] + currencyIndex
+  }`;
   place.append(currencyCard);
   currencyCard.append(cardText);
 };
