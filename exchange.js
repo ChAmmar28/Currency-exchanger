@@ -1,4 +1,5 @@
 import { getCurrensy } from "./fetching.js";
+import { convertor } from "./convertor.js";
 
 // global varibles
 const url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${localStorage.getItem(
@@ -33,8 +34,13 @@ selectA.addEventListener("change", () => {
 });
 
 input.addEventListener("change", () => {
-  // надо сделать проверку на число в инпуте
   if (!isNaN(+input.value)) {
+    p.innerHTML = convertor(
+      input.value,
+      globalObject["conversion_rates"],
+      globalObject["base_code"],
+      selectB.value
+    );
   } else {
     console.log("Error of input");
   }
