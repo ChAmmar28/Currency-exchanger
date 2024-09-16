@@ -6,16 +6,10 @@ export const convertor = (
   currencyIndexA,
   currencyIndexB
 ) => {
-  console.log(value);
-  console.log(currencyList);
-  console.log(currencyIndexA);
-  console.log(currencyIndexB);
+  const conversionRate = currencyList[currencyIndexB];
+  const convertedValue = value * conversionRate;
 
-  return `${
-    value +
-    currencyIndexA +
-    " = " +
-    value * currencyList[currencyIndexB] +
-    currencyIndexB
-  }`;
+  return `${value} ${currencyIndexA} = ${convertedValue.toFixed(
+    2
+  )} ${currencyIndexB}`;
 };

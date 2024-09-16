@@ -1,44 +1,36 @@
-import { getCurrensy } from "./fetching.js";
 import { convertor } from "./convertor.js";
-
-// global varibles
-const url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${localStorage.getItem(
-  "baseCurrency"
-)}`;
-
-const globalObject = await getCurrensy(url);
-console.log(globalObject);
+import { populateSelect } from "./populateSelect.js";
+import { getCurrency } from "./fetching.js";
 
 const input = document.querySelector(".inputContainer");
 const p = document.querySelector(".result");
 const selectA = document.querySelector("#selectA");
 const selectB = document.querySelector("#selectB");
 
-for (let element in globalObject["conversion_rates"]) {
-  const bOption = document.createElement("option");
-  bOption.className = "bO";
-  bOption.innerHTML = element;
-  selectB.append(bOption);
-}
-for (let element in globalObject["conversion_rates"]) {
-  const aOption = document.createElement("option");
-  aOption.className = "aO";
-  aOption.innerHTML = element;
-  selectA.append(aOption);
-}
+let url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${localStorage.getItem(
+  "baseCurrency"
+)}`;
+let exchangeObject = await getCurrency(url);
 
-selectA.addEventListener("change", () => {
+populateSelect(selectA, exchangeObject["conversion_rates"]);
+populateSelect(selectB, exchangeObject["conversion_rates"]);
+
+selectA.addEventListener("change", async () => {
   localStorage.setItem("baseCurrency", selectA.value);
-  console.log(localStorage.getItem("baseCurrency"));
-  location.reload();
+  url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${selectA.value}`;
+  exchangeObject = await getCurrency(url);
 });
 
 input.addEventListener("change", () => {
-  if (!isNaN(+input.value)) {
+  const isValidNumber =
+    !isNaN(parseFloat(input.value)) &&
+    isFinite(input.value) &&
+    input.value !== 0;
+  if (isValidNumber) {
     p.innerHTML = convertor(
       input.value,
-      globalObject["conversion_rates"],
-      globalObject["base_code"],
+      exchangeObject["conversion_rates"],
+      exchangeObject["base_code"],
       selectB.value
     );
   } else {
