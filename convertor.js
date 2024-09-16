@@ -9,7 +9,13 @@ export const convertor = (
   const conversionRate = currencyList[currencyIndexB];
   const convertedValue = value * conversionRate;
 
-  return `${value} ${currencyIndexA} = ${convertedValue.toFixed(
-    2
-  )} ${currencyIndexB}`;
+  if (value.length !== 1) {
+    return `${value} ${currencyIndexA} = ${convertedValue.toFixed(
+      2
+    )} ${currencyIndexB}`;
+  } else {
+    return `${value}.00 ${currencyIndexA} = ${convertedValue.toFixed(
+      2
+    )} ${currencyIndexB}`;
+  }
 };
