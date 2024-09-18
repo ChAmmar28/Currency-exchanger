@@ -15,19 +15,37 @@ let exchangeObject = await getCurrency(url);
 populateSelect(selectA, exchangeObject["conversion_rates"]);
 populateSelect(selectB, exchangeObject["conversion_rates"]);
 
-selectA.addEventListener("change", async () => {
+p.innerText = `0.00 ${selectA.value} = 0.00 ${selectB.value}`;
+
+selectA.addEventListener("click", async () => {
   localStorage.setItem("baseCurrency", selectA.value);
   url = `https://v6.exchangerate-api.com/v6/3431c907cc0b581df072ae7e/latest/${selectA.value}`;
   exchangeObject = await getCurrency(url);
+  const isValidNumber =
+    !isNaN(parseFloat(input.value)) && isFinite(input.value);
+  if (input.value === "") {
+    p.innerText = `0.00 ${selectA.value} = 0.00 ${selectB.value}`;
+  }
+  if (isValidNumber) {
+    p.innerText = convertor(
+      input.value,
+      exchangeObject["conversion_rates"],
+      exchangeObject["base_code"],
+      selectB.value
+    );
+  } else {
+    console.log("Error of input");
+  }
 });
 
-input.addEventListener("change", () => {
+input.addEventListener("keyup", () => {
   const isValidNumber =
-    !isNaN(parseFloat(input.value)) &&
-    isFinite(input.value) &&
-    input.value !== 0;
+    !isNaN(parseFloat(input.value)) && isFinite(input.value);
+  if (input.value === "") {
+    p.innerText = `0.00 ${selectA.value} = 0.00 ${selectB.value}`;
+  }
   if (isValidNumber) {
-    p.innerHTML = convertor(
+    p.innerText = convertor(
       input.value,
       exchangeObject["conversion_rates"],
       exchangeObject["base_code"],

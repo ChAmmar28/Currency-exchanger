@@ -28,7 +28,7 @@ export const createCurrencyCard = (
   });
 
   cardText.innerText = `1 ${currencyFrom} = ${
-    currencyList[currencyIndex] + currencyIndex
+    currencyList[currencyIndex] + " " + currencyIndex
   }`;
 
   place.append(currencyCard);
